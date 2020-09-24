@@ -1,0 +1,12 @@
+.form {
+  margin: 1rem auto;
+  max-width: 320px;
+  width: 100%;
+
+  fieldset {
+    border: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+  }
+}
