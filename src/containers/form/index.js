@@ -17,10 +17,18 @@ const Form = props => {
     }
   }
 
+  const handleReset = () => {
+    setUsername('')
+
+    setPassword('')
+  }
+
+  const isDisabled = !(username && password)
+
   return (
     <form
       className="form"
-      onSubmit={props.handleSubmit({ username, password })}
+      onSubmit={props.handleSubmit({ username, password }, handleReset)}
     >
       <Title>My User</Title>
       <fieldset>
@@ -37,7 +45,9 @@ const Form = props => {
           value={password}
           name="password"
         />
-        <Button type="submit">Enviar</Button>
+        <Button type="submit" disabled={isDisabled}>
+          Enviar
+        </Button>
       </fieldset>
     </form>
   )
