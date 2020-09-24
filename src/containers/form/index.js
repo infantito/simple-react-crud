@@ -1,5 +1,5 @@
 import React from 'react'
-import { TextField, Button } from '../../components'
+import { TextField, Button } from 'components'
 
 const Form = props => {
   return (

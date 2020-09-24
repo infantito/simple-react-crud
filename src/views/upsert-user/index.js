@@ -1,5 +1,5 @@
 import React from 'react'
-import Form from '../../containers/form'
+import Form from 'containers/form'
 
 const UpsertUser = () => {
   const handleSubmit = e => {

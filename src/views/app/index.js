@@ -1,5 +1,5 @@
 import React from 'react'
-import UpsertUser from '../upsert-user'
+import UpsertUser from 'views/upsert-user'
 
 const App = () => {
   return <UpsertUser />
