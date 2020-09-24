@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { TextField, Button } from 'components'
+import { Title, TextField, Button } from 'components'
 import './styles.scss'
 
 const Form = props => {
@@ -22,6 +22,7 @@ const Form = props => {
       className="form"
       onSubmit={props.handleSubmit({ username, password })}
     >
+      <Title>My User</Title>
       <fieldset>
         <TextField
           onChange={handleChange}
