@@ -1,17 +1,18 @@
 import React from 'react'
+import { Form as AntdForm } from 'antd'
 import Form from 'containers/form'
 
 const UpsertUser = () => {
-  const handleSubmit = (values, handleReset) => e => {
-    e.preventDefault()
+  const [form] = AntdForm.useForm()
 
-    console.info(values)
+  const handleSubmit = values => {
     // TODO: use Fetch Api
+    console.info(values)
 
-    handleReset()
+    form.resetFields()
   }
 
-  return <Form handleSubmit={handleSubmit} />
+  return <Form form={form} handleSubmit={handleSubmit} />
 }
 
 export default UpsertUser

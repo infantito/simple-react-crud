@@ -1,55 +1,46 @@
-import React, { useState } from 'react'
-import { Title, TextField, Button } from 'components'
+import React from 'react'
+import { Form as AntdForm, Input, Button } from 'antd'
+import { Title } from 'components'
 import './styles.scss'
 
 const Form = props => {
-  const [username, setUsername] = useState('')
-
-  const [password, setPassword] = useState('')
-
-  const handleChange = e => {
-    const { name, value } = e.target
-
-    if (name === 'username') {
-      setUsername(value)
-    } else if (name === 'password') {
-      setPassword(value)
-    }
-  }
-
-  const handleReset = () => {
-    setUsername('')
-
-    setPassword('')
-  }
-
-  const isDisabled = !(username && password)
+  const { form, handleSubmit } = props
 
   return (
-    <form
+    <AntdForm
+      form={form}
       className="form"
-      onSubmit={props.handleSubmit({ username, password }, handleReset)}
+      layout="vertical"
+      initialValues={{}}
+      onFinish={handleSubmit}
     >
       <Title>My User</Title>
       <fieldset>
-        <TextField
-          onChange={handleChange}
-          placeholder="Nombre usuario"
-          value={username}
-          name="username"
-        />
-        <TextField
-          onChange={handleChange}
-          type="password"
-          placeholder="Contraseña"
-          value={password}
-          name="password"
-        />
-        <Button type="submit" disabled={isDisabled}>
-          Enviar
-        </Button>
+        <AntdForm.Item label="Nombre de usuario:" name="username">
+          <Input placeholder="Nombre de usuario" />
+        </AntdForm.Item>
+        <AntdForm.Item label="Contraseña:" name="password">
+          <Input.Password placeholder="Contraseña" />
+        </AntdForm.Item>
+        <AntdForm.Item shouldUpdate={true}>
+          {internalProps => {
+            const values = internalProps.getFieldsValue([
+              'username',
+              'password',
+            ])
+
+            const isDisabled =
+              Object.values(values).filter(value => !value).length > 0
+
+            return (
+              <Button type="primary" htmlType="submit" disabled={isDisabled}>
+                Submit
+              </Button>
+            )
+          }}
+        </AntdForm.Item>
       </fieldset>
-    </form>
+    </AntdForm>
   )
 }
 
