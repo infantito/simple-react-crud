@@ -15,13 +15,16 @@ export const users = [
   {
     username: 'daniel',
     password: '123456',
+    key: '1',
   },
   {
     username: 'hector',
     password: '456789',
+    key: '2',
   },
   {
     username: 'rolando',
     password: '456778',
+    key: '3',
   },
 ]
