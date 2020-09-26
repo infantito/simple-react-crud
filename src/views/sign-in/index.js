@@ -1,10 +1,16 @@
 import React from 'react'
 import { Form, Input, Button } from 'antd'
+import { storage, generateToken, STORAGE_KEYS } from 'utils'
 import './styles.scss'
 
 const SignIn = () => {
   const handleSubmit = values => {
-    console.log(values)
+    // TODO: use Fetch Api
+    const response = { user: values, token: generateToken() }
+
+    storage.set(STORAGE_KEYS.TOKEN, response.token)
+
+    storage.set(STORAGE_KEYS.USER, JSON.stringify(response.user))
   }
 
   return (

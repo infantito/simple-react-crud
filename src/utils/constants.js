@@ -79,4 +79,9 @@ export const roles = [
   },
 ]
 
-export const userKeys = ['username', 'password', 'role']
+export const USER_KEYS = ['username', 'password', 'role']
+
+export const STORAGE_KEYS = {
+  TOKEN: 'token',
+  USER: 'user',
+}

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { Form as AntdForm, Input, Select, Button } from 'antd'
 import { Title } from 'components'
-import { roles, userKeys } from 'utils/constants'
+import { roles, USER_KEYS } from 'utils/constants'
 import './styles.scss'
 
 const Form = props => {
@@ -39,7 +39,7 @@ const Form = props => {
         </AntdForm.Item>
         <AntdForm.Item shouldUpdate={true}>
           {internalProps => {
-            const values = internalProps.getFieldsValue(userKeys)
+            const values = internalProps.getFieldsValue(USER_KEYS)
 
             const isDisabled =
               Object.values(values).filter(value => !value).length > 0
