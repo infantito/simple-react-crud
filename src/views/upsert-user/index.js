@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form as AntdForm } from 'antd'
+import { Form as AntdForm, notification } from 'antd'
 import Form from 'containers/form'
 
 const UpsertUser = () => {
@@ -8,6 +8,12 @@ const UpsertUser = () => {
   const handleSubmit = values => {
     // TODO: use Fetch Api
     console.info(values)
+
+    notification.success({
+      message: '¡Operación exitosa!',
+      description: 'La transacción se realizó correctamente.',
+      duration: 2.5,
+    })
 
     form.resetFields()
   }
