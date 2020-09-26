@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { Form as AntdForm, Input, Select, Button } from 'antd'
 import { Title } from 'components'
-import { userKeys } from 'utils/constants'
+import { roles, userKeys } from 'utils/constants'
 import './styles.scss'
 
 const Form = props => {
@@ -28,11 +28,13 @@ const Form = props => {
         <AntdForm.Item label="Contraseña:" name="password">
           <Input.Password placeholder="Contraseña" />
         </AntdForm.Item>
-        <AntdForm.Item label="Role" name="role">
+        <AntdForm.Item label="Role:" name="role">
           <Select placeholder="Selecciona un role" allowClear={true}>
-            <Select.Option value="admin">Administrador</Select.Option>
-            <Select.Option value="adviser">Asesor</Select.Option>
-            <Select.Option value="manager">Gerente</Select.Option>
+            {roles.map(role => (
+              <Select.Option key={role.value} value={role.value}>
+                {role.text}
+              </Select.Option>
+            ))}
           </Select>
         </AntdForm.Item>
         <AntdForm.Item shouldUpdate={true}>
@@ -44,7 +46,7 @@ const Form = props => {
 
             return (
               <Button type="primary" htmlType="submit" disabled={isDisabled}>
-                Submit
+                Guardar
               </Button>
             )
           }}

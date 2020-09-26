@@ -2,7 +2,18 @@ import React, { useState } from 'react'
 import { Row } from 'antd'
 import UpsertUser from 'views/upsert-user'
 import { Table } from 'containers'
-import { getColumns, users as dataSource } from 'utils/constants'
+import { getColumns, roles, users as dataSource } from 'utils/constants'
+
+const formatUsers = users => {
+  return users.map(user => {
+    const role = roles.find(role => role.value === user.role)
+
+    return {
+      ...user,
+      role: role.text,
+    }
+  })
+}
 
 const App = () => {
   const [user, setUser] = useState(null)
@@ -52,7 +63,7 @@ const App = () => {
       <UpsertUser handleUpsertUser={handleUpsertUser} user={user} />
       <Table
         columns={getColumns({ handleEdit, handleDelete })}
-        dataSource={users}
+        dataSource={formatUsers(users)}
       />
     </Row>
   )

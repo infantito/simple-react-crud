@@ -47,20 +47,35 @@ export const users = [
   {
     username: 'daniel',
     password: '123456',
-    role: 'Administrador',
+    role: 'admin',
     key: '1',
   },
   {
     username: 'hector',
     password: '456789',
-    role: 'Asesor',
+    role: 'adviser',
     key: '2',
   },
   {
     username: 'rolando',
     password: '456778',
-    role: 'Gerente',
+    role: 'manager',
     key: '3',
+  },
+]
+
+export const roles = [
+  {
+    value: 'admin',
+    text: 'Administrador',
+  },
+  {
+    value: 'adviser',
+    text: 'Asesor',
+  },
+  {
+    value: 'manager',
+    text: 'Gerente',
   },
 ]
 
