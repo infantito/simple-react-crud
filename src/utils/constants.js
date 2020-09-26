@@ -13,6 +13,11 @@ export const getColumns = params => [
     key: 'password',
   },
   {
+    title: 'Role',
+    dataIndex: 'role',
+    key: 'role',
+  },
+  {
     title: 'Acciones',
     key: 'actions',
     render: record => {
@@ -42,16 +47,21 @@ export const users = [
   {
     username: 'daniel',
     password: '123456',
+    role: 'Administrador',
     key: '1',
   },
   {
     username: 'hector',
     password: '456789',
+    role: 'Asesor',
     key: '2',
   },
   {
     username: 'rolando',
     password: '456778',
+    role: 'Gerente',
     key: '3',
   },
 ]
+
+export const userKeys = ['username', 'password', 'role']
