@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Row } from 'antd'
 import UpsertUser from 'views/upsert-user'
 import { Table } from 'containers'
-import { columns, users as dataSource } from 'utils/constants'
+import { getColumns, users as dataSource } from 'utils/constants'
 
 const App = () => {
   const [users, setUsers] = useState(dataSource)
@@ -17,10 +17,16 @@ const App = () => {
     })
   }
 
+  const handleDelete = user => () => {
+    setUsers(prevState => {
+      return prevState.filter(item => item.key !== user.key)
+    })
+  }
+
   return (
     <Row>
       <UpsertUser handleAddUser={handleAddUser} />
-      <Table columns={columns} dataSource={users} />
+      <Table columns={getColumns({ handleDelete })} dataSource={users} />
     </Row>
   )
 }

@@ -1,4 +1,7 @@
-export const columns = [
+import React from 'react'
+import { Row, Button } from 'antd'
+
+export const getColumns = params => [
   {
     title: 'Nombre de usuario',
     dataIndex: 'username',
@@ -8,6 +11,17 @@ export const columns = [
     title: 'Contraseña',
     dataIndex: 'password',
     key: 'password',
+  },
+  {
+    title: 'Acciones',
+    key: 'actions',
+    render: record => {
+      return (
+        <Row>
+          <Button onClick={params.handleDelete(record)}>Eliminar</Button>
+        </Row>
+      )
+    },
   },
 ]
 
