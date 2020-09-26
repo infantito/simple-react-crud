@@ -2,7 +2,7 @@ import React from 'react'
 import { Form as AntdForm, notification } from 'antd'
 import Form from 'containers/form'
 
-const UpsertUser = props => {
+const UpdateUser = props => {
   const [form] = AntdForm.useForm()
 
   const handleSubmit = values => {
@@ -10,18 +10,14 @@ const UpsertUser = props => {
     console.info(values)
 
     notification.success({
-      message: '¡Operación exitosa!',
+      message: '¡Usuario actualizado!',
       description: 'La transacción se realizó correctamente.',
       duration: 2.5,
     })
 
-    const key = props.user?.key
+    props.handleUpdateUser(values, props.user.key)
 
-    props.handleUpsertUser(values, key)
-
-    if (!key) {
-      form.resetFields()
-    }
+    form.resetFields()
   }
 
   return (
@@ -29,4 +25,4 @@ const UpsertUser = props => {
   )
 }
 
-export default UpsertUser
+export default UpdateUser

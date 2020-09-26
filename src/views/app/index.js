@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Row } from 'antd'
-import UpsertUser from 'views/upsert-user'
+import { CreateUser, UpdateUser } from 'views'
 import { Table } from 'containers'
 import { getColumns, users as dataSource } from 'utils/constants'
 
@@ -9,25 +9,7 @@ const App = () => {
 
   const [users, setUsers] = useState(dataSource)
 
-  const handleUpsertUser = (user, key) => {
-    // UPDATE
-    if (key) {
-      setUser(null)
-
-      setUsers(prevState => {
-        return prevState.map(item => {
-          if (item.key === key) {
-            return { ...user, key }
-          }
-
-          return item
-        })
-      })
-
-      return null
-    }
-
-    // CREATE
+  const handleCreateUser = user => {
     // NOTE: Don't do array.push(value)
     setUsers(prevState => {
       // Base36 = hexatridecimal
@@ -47,9 +29,27 @@ const App = () => {
     })
   }
 
+  const handleUpdateUser = (record, key) => {
+    setUser(null)
+
+    setUsers(prevState => {
+      return prevState.map(item => {
+        if (item.key === key) {
+          return { ...record, key }
+        }
+
+        return item
+      })
+    })
+  }
+
   return (
     <Row>
-      <UpsertUser handleUpsertUser={handleUpsertUser} user={user} />
+      {user ? (
+        <UpdateUser user={user} handleUpdateUser={handleUpdateUser} />
+      ) : (
+        <CreateUser handleCreateUser={handleCreateUser} />
+      )}
       <Table
         columns={getColumns({ handleEdit, handleDelete })}
         dataSource={users}
