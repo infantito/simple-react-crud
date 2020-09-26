@@ -15,12 +15,18 @@ const UpsertUser = props => {
       duration: 2.5,
     })
 
-    props.handleAddUser(values)
+    const key = props.user?.key
 
-    form.resetFields()
+    props.handleUpsertUser(values, key)
+
+    if (!key) {
+      form.resetFields()
+    }
   }
 
-  return <Form form={form} handleSubmit={handleSubmit} />
+  return (
+    <Form form={form} initialValues={props.user} handleSubmit={handleSubmit} />
+  )
 }
 
 export default UpsertUser

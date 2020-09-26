@@ -1,17 +1,22 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Form as AntdForm, Input, Button } from 'antd'
 import { Title } from 'components'
 import './styles.scss'
 
 const Form = props => {
-  const { form, handleSubmit } = props
+  const { form, initialValues, handleSubmit } = props
+
+  useEffect(() => {
+    form.resetFields()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialValues])
 
   return (
     <AntdForm
       form={form}
       className="form"
       layout="vertical"
-      initialValues={{}}
+      initialValues={initialValues || {}}
       onFinish={handleSubmit}
     >
       <Title>My User</Title>

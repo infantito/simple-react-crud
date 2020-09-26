@@ -5,9 +5,29 @@ import { Table } from 'containers'
 import { getColumns, users as dataSource } from 'utils/constants'
 
 const App = () => {
+  const [user, setUser] = useState(null)
+
   const [users, setUsers] = useState(dataSource)
 
-  const handleAddUser = user => {
+  const handleUpsertUser = (user, key) => {
+    // UPDATE
+    if (key) {
+      setUser(null)
+
+      setUsers(prevState => {
+        return prevState.map(item => {
+          if (item.key === key) {
+            return { ...user, key }
+          }
+
+          return item
+        })
+      })
+
+      return null
+    }
+
+    // CREATE
     // NOTE: Don't do array.push(value)
     setUsers(prevState => {
       // Base36 = hexatridecimal
@@ -17,16 +37,23 @@ const App = () => {
     })
   }
 
-  const handleDelete = user => () => {
+  const handleEdit = record => () => {
+    setUser(record)
+  }
+
+  const handleDelete = record => () => {
     setUsers(prevState => {
-      return prevState.filter(item => item.key !== user.key)
+      return prevState.filter(item => item.key !== record.key)
     })
   }
 
   return (
     <Row>
-      <UpsertUser handleAddUser={handleAddUser} />
-      <Table columns={getColumns({ handleDelete })} dataSource={users} />
+      <UpsertUser handleUpsertUser={handleUpsertUser} user={user} />
+      <Table
+        columns={getColumns({ handleEdit, handleDelete })}
+        dataSource={users}
+      />
     </Row>
   )
 }

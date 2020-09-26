@@ -1,5 +1,5 @@
 import React from 'react'
-import { Row, Button } from 'antd'
+import { Row, Col, Button } from 'antd'
 
 export const getColumns = params => [
   {
@@ -17,8 +17,21 @@ export const getColumns = params => [
     key: 'actions',
     render: record => {
       return (
-        <Row>
-          <Button onClick={params.handleDelete(record)}>Eliminar</Button>
+        <Row gutter={16}>
+          <Col>
+            <Button type="primary" onClick={params.handleEdit(record)}>
+              Editar
+            </Button>
+          </Col>
+          <Col>
+            <Button
+              type="primary"
+              danger={true}
+              onClick={params.handleDelete(record)}
+            >
+              Eliminar
+            </Button>
+          </Col>
         </Row>
       )
     },
