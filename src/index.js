@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { SignIn } from 'views'
-import './styles/theme.scss'
+import { App } from 'views'
 import 'antd/dist/antd.css'
+import './styles/theme.scss'
 
-ReactDOM.render(<SignIn />, document.getElementById('root'))
+ReactDOM.render(<App />, document.getElementById('root'))

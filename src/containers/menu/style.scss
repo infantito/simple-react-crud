@@ -1,0 +1,15 @@
+.anticon {
+  margin-right: 0.5rem;
+}
+
+.menu {
+  height: 100%;
+
+  &-button {
+    width: 100%;
+  }
+
+  &-content {
+    height: calc(100% - 50px);
+  }
+}

@@ -85,3 +85,14 @@ export const STORAGE_KEYS = {
   TOKEN: 'token',
   USER: 'user',
 }
+
+export const MENU = [
+  {
+    text: 'Usuarios',
+    icon: '🗄️',
+  },
+  {
+    text: 'Crear usuario',
+    icon: '👤',
+  },
+]
