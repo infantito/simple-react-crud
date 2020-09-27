@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Button, Menu as Navigation } from 'antd'
+import { Link } from 'react-router-dom'
 import './style.scss'
 
 const { Item } = Navigation
@@ -14,6 +15,8 @@ const Icon = props => {
 
 const Menu = ({ options }) => {
   const [isCollapsed, setIsCollapsed] = useState(false)
+
+  const menu = Object.values(options)
 
   const handleCollapse = () => {
     setIsCollapsed(prevState => !prevState)
@@ -35,9 +38,11 @@ const Menu = ({ options }) => {
         inlineCollapsed={isCollapsed}
         className="menu-content"
       >
-        {options.map((option, index) => (
+        {menu.map((option, index) => (
           <Item key={index} icon={<Icon {...option} />}>
-            <span>{option.text}</span>
+            <Link to={option.path}>
+              <span>{option.text}</span>
+            </Link>
           </Item>
         ))}
         <Item key={options.length} icon={<Icon icon="🎉" />}>

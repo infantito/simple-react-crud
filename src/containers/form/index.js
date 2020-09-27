@@ -20,7 +20,7 @@ const Form = props => {
       initialValues={initialValues || {}}
       onFinish={handleSubmit}
     >
-      <Title>My User</Title>
+      <Title>Mi usuario</Title>
       <fieldset>
         <AntdForm.Item label="Nombre de usuario:" name="username">
           <Input placeholder="Nombre de usuario" />

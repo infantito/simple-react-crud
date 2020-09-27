@@ -86,13 +86,15 @@ export const STORAGE_KEYS = {
   USER: 'user',
 }
 
-export const MENU = [
-  {
+export const MENU = {
+  HOME: {
     text: 'Usuarios',
+    path: '/',
     icon: '🗄️',
   },
-  {
+  CREATE_USER: {
     text: 'Crear usuario',
+    path: '/create-user',
     icon: '👤',
   },
-]
+}

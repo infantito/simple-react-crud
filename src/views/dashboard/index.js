@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Switch, Route } from 'react-router-dom'
 import { Menu, Table } from 'containers'
 import { UpsertUser } from 'views'
 import { getColumns, MENU, roles, users as dataSource } from 'utils'
@@ -64,11 +65,17 @@ const Dashboard = () => {
         <Menu options={MENU} />
       </section>
       <section className="container-content">
-        <UpsertUser handleUpsertUser={handleUpsertUser} user={user} />
-        <Table
-          columns={getColumns({ handleEdit, handleDelete })}
-          dataSource={formatUsers(users)}
-        />
+        <Switch>
+          <Route exact={true} path={MENU.HOME.path}>
+            <Table
+              columns={getColumns({ handleEdit, handleDelete })}
+              dataSource={formatUsers(users)}
+            />
+          </Route>
+          <Route path={MENU.CREATE_USER.path}>
+            <UpsertUser handleUpsertUser={handleUpsertUser} user={user} />
+          </Route>
+        </Switch>
       </section>
     </article>
   )

@@ -19,7 +19,7 @@ const SignIn = () => {
       name="basic"
       initialValues={{}}
       onFinish={handleSubmit}
-      className="form"
+      className="login"
     >
       <Form.Item
         label="Nombre de usuario:"
