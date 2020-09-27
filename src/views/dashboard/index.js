@@ -66,7 +66,7 @@ const Dashboard = () => {
   return (
     <article className="container">
       <section className="container-menu">
-        <Menu options={MENU} />
+        <Menu options={MENU} history={history} />
       </section>
       <section className="container-content">
         <Switch>

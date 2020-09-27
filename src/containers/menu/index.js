@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
+import { Link, useRouteMatch } from 'react-router-dom'
 import { Button, Menu as Navigation } from 'antd'
-import { Link } from 'react-router-dom'
+import { MENU } from 'utils'
 import './style.scss'
 
 const { Item } = Navigation
@@ -13,14 +14,22 @@ const Icon = props => {
   )
 }
 
-const Menu = ({ options }) => {
+const Menu = ({ options, history }) => {
   const [isCollapsed, setIsCollapsed] = useState(false)
 
   const menu = Object.values(options)
 
+  const match = useRouteMatch(`${MENU.USER.path}/:id`) || {}
+
   const handleCollapse = () => {
     setIsCollapsed(prevState => !prevState)
   }
+
+  const { pathname } = history.location
+
+  const selectedKeys = [
+    match.params ? pathname.replace(`/${match.params.id}`, '') : pathname,
+  ]
 
   return (
     <section className="menu">
@@ -36,10 +45,11 @@ const Menu = ({ options }) => {
         theme="dark"
         mode="inline"
         inlineCollapsed={isCollapsed}
+        selectedKeys={selectedKeys}
         className="menu-content"
       >
-        {menu.map((option, index) => (
-          <Item key={index} icon={<Icon {...option} />}>
+        {menu.map(option => (
+          <Item key={option.path} icon={<Icon {...option} />}>
             <Link to={option.path}>
               <span>{option.text}</span>
             </Link>
