@@ -92,9 +92,9 @@ export const MENU = {
     path: '/',
     icon: '🗄️',
   },
-  CREATE_USER: {
+  USER: {
     text: 'Crear usuario',
-    path: '/create-user',
+    path: '/user',
     icon: '👤',
   },
 }

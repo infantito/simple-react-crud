@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Switch, Route } from 'react-router-dom'
+import { Switch, Route, useHistory } from 'react-router-dom'
 import { Menu, Table } from 'containers'
 import { UpsertUser } from 'views'
 import { getColumns, MENU, roles, users as dataSource } from 'utils'
@@ -20,6 +20,8 @@ const Dashboard = () => {
   const [user, setUser] = useState(null)
 
   const [users, setUsers] = useState(dataSource)
+
+  const history = useHistory()
 
   const handleUpsertUser = (user, key) => {
     // UPDATE
@@ -51,6 +53,8 @@ const Dashboard = () => {
 
   const handleEdit = record => () => {
     setUser(record)
+
+    return history.push(`${MENU.USER.path}/${record.key}`)
   }
 
   const handleDelete = record => () => {
@@ -72,7 +76,10 @@ const Dashboard = () => {
               dataSource={formatUsers(users)}
             />
           </Route>
-          <Route path={MENU.CREATE_USER.path}>
+          <Route exact={true} path={MENU.USER.path}>
+            <UpsertUser handleUpsertUser={handleUpsertUser} />
+          </Route>
+          <Route path={`${MENU.USER.path}/:id`}>
             <UpsertUser handleUpsertUser={handleUpsertUser} user={user} />
           </Route>
         </Switch>
