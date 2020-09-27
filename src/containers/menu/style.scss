@@ -1,9 +1,6 @@
-.anticon {
-  margin-right: 0.5rem;
-}
-
 .menu {
   height: 100%;
+  overflow: hidden;
 
   &-button {
     width: 100%;
@@ -11,5 +8,11 @@
 
   &-content {
     height: calc(100% - 50px);
+  }
+}
+
+.ant-menu-inline {
+  li.ant-menu-item {
+    padding: 0 2rem;
   }
 }
