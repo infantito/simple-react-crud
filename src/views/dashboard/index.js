@@ -7,7 +7,9 @@ import './styles.scss'
 
 const formatUsers = users => {
   return users.map(user => {
-    const role = roles.find(role => role.value === user.role)
+    const role = roles.find(
+      role => role.value === user.role || role.text === user.role,
+    )
 
     return {
       ...user,
