@@ -7,6 +7,12 @@ const authentication = {
   get user() {
     return localStorage.getItem(STORAGE_KEYS.USER)
   },
+  get isAuthenticated() {
+    return !!(
+      localStorage.getItem(STORAGE_KEYS.TOKEN) &&
+      localStorage.getItem(STORAGE_KEYS.USER)
+    )
+  },
 }
 
 export default authentication

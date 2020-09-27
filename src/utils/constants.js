@@ -87,14 +87,19 @@ export const STORAGE_KEYS = {
 }
 
 export const MENU = {
-  HOME: {
+  DASHBOARD: {
     text: 'Usuarios',
-    path: '/',
+    path: '/dashboard',
     icon: '🗄️',
   },
   USER: {
     text: 'Crear usuario',
-    path: '/user',
+    path: '/dashboard/user',
     icon: '👤',
   },
+}
+
+export const PUBLIC_ROUTES = {
+  HOME: '/',
+  LOGIN: '/login',
 }

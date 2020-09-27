@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { Switch, Route, useHistory } from 'react-router-dom'
-import { Menu, Table } from 'containers'
+import { Switch, useHistory } from 'react-router-dom'
+import { Menu, Table, PrivateRoute } from 'containers'
 import { UpsertUser } from 'views'
 import { getColumns, MENU, roles, users as dataSource } from 'utils'
 import './styles.scss'
@@ -48,7 +48,7 @@ const Dashboard = () => {
       })
     }
 
-    history.push(MENU.HOME.path)
+    history.push(MENU.DASHBOARD.path)
   }
 
   const handleEdit = record => () => {
@@ -70,18 +70,18 @@ const Dashboard = () => {
       </section>
       <section className="container-content">
         <Switch>
-          <Route exact={true} path={MENU.HOME.path}>
+          <PrivateRoute exact={true} path={MENU.DASHBOARD.path}>
             <Table
               columns={getColumns({ handleEdit, handleDelete })}
               dataSource={formatUsers(users)}
             />
-          </Route>
-          <Route exact={true} path={MENU.USER.path}>
+          </PrivateRoute>
+          <PrivateRoute exact={true} path={MENU.USER.path}>
             <UpsertUser handleUpsertUser={handleUpsertUser} />
-          </Route>
-          <Route path={`${MENU.USER.path}/:id`}>
+          </PrivateRoute>
+          <PrivateRoute path={`${MENU.USER.path}/:id`}>
             <UpsertUser handleUpsertUser={handleUpsertUser} user={user} />
-          </Route>
+          </PrivateRoute>
         </Switch>
       </section>
     </article>
