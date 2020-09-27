@@ -19,6 +19,7 @@ const App = () => {
           to={PUBLIC_ROUTES.LOGIN}
         />
         <Route
+          exact={true}
           path={PUBLIC_ROUTES.LOGIN}
           render={() => {
             return authentication.isAuthenticated ? (
@@ -31,6 +32,9 @@ const App = () => {
         <PrivateRoute path={MENU.DASHBOARD.path}>
           <Dashboard />
         </PrivateRoute>
+        <Route path="*">
+          <h2>404</h2>
+        </Route>
       </Switch>
     </Router>
   )
