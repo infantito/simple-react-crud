@@ -37,18 +37,18 @@ const Dashboard = () => {
           return item
         })
       })
+    } else {
+      // CREATE
+      // NOTE: Don't do array.push(value)
+      setUsers(prevState => {
+        // Base36 = hexatridecimal
+        const key = Date.now().toString(36)
 
-      return null
+        return [...prevState, { ...user, key }]
+      })
     }
 
-    // CREATE
-    // NOTE: Don't do array.push(value)
-    setUsers(prevState => {
-      // Base36 = hexatridecimal
-      const key = Date.now().toString(36)
-
-      return [...prevState, { ...user, key }]
-    })
+    history.push(MENU.HOME.path)
   }
 
   const handleEdit = record => () => {
