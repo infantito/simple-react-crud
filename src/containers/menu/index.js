@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Link, useRouteMatch } from 'react-router-dom'
 import { Button, Menu as Navigation } from 'antd'
-import { MENU } from 'utils'
+import { MENU, PUBLIC_ROUTES, storage } from 'utils'
 import './style.scss'
 
 const { Item } = Navigation
@@ -23,6 +23,12 @@ const Menu = ({ options, history }) => {
 
   const handleCollapse = () => {
     setIsCollapsed(prevState => !prevState)
+  }
+
+  const handleSignOut = () => {
+    storage.clear()
+
+    history.replace(PUBLIC_ROUTES.LOGIN)
   }
 
   const { pathname } = history.location
@@ -55,7 +61,11 @@ const Menu = ({ options, history }) => {
             </Link>
           </Item>
         ))}
-        <Item key={options.length} icon={<Icon icon="🎉" />}>
+        <Item
+          key={options.length}
+          icon={<Icon icon="🎉" />}
+          onClick={handleSignOut}
+        >
           <span>Cerrar sesión</span>
         </Item>
       </Navigation>
