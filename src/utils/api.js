@@ -1,4 +1,5 @@
-import { DOMAIN, PATHS, BEARER, TOKEN } from './constants'
+import { DOMAIN, PATHS, BEARER, STORAGE_KEYS } from './constants'
+import storage from './storage'
 
 const authenticate = async values => {
   const endpoint = `${DOMAIN}${PATHS.authenticate}`
@@ -25,7 +26,6 @@ const authenticate = async values => {
       session = json
     }
   } catch (error) {
-    debugger
     console.error(error)
   } finally {
     return session
@@ -42,7 +42,7 @@ const getProducts = async () => {
       method: 'POST',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded',
-        Authorization: `${BEARER} ${TOKEN}`,
+        Authorization: `${BEARER} ${storage.get(STORAGE_KEYS.TOKEN)}`,
       },
     })
 
@@ -77,7 +77,7 @@ const createProduct = async values => {
     const response = await fetch(endpoint, {
       method: 'POST',
       headers: {
-        Authorization: `${BEARER} ${TOKEN}`,
+        Authorization: `${BEARER} ${storage.get(STORAGE_KEYS.TOKEN)}`,
       },
       body: searchParams,
     })
@@ -115,7 +115,7 @@ const updateProduct = async values => {
     const response = await fetch(endpoint, {
       method: 'POST',
       headers: {
-        Authorization: `${BEARER} ${TOKEN}`,
+        Authorization: `${BEARER} ${storage.get(STORAGE_KEYS.TOKEN)}`,
       },
       body: searchParams,
     })
@@ -141,7 +141,7 @@ const deleteProduct = async id => {
     const response = await fetch(endpoint, {
       method: 'POST',
       headers: {
-        Authorization: `${BEARER} ${TOKEN}`,
+        Authorization: `${BEARER} ${storage.get(STORAGE_KEYS.TOKEN)}`,
       },
     })
 
