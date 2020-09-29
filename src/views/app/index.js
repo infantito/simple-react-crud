@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { Row } from 'antd'
 import UpsertProduct from 'views/upsert-product'
 import { Table } from 'containers'
-import { getColumns, products as dataSource } from 'utils/constants'
+import { getColumns } from 'utils/constants'
 import { getProducts } from 'utils/api'
 
 const App = () => {
   const [product, setProduct] = useState(null)
 
-  const [products, setProducts] = useState(dataSource)
+  const [products, setProducts] = useState([])
 
   const handleUpsertProduct = (item, id) => {
     // UPDATE
@@ -53,9 +53,11 @@ const App = () => {
   }
 
   useEffect(() => {
-    getProducts()
-
-    // TODO: format products (status)
+    getProducts().then(data => {
+      if (Array.isArray(data)) {
+        setProducts(data)
+      }
+    })
   }, [])
 
   return (
