@@ -131,7 +131,7 @@ const updateProduct = async values => {
 }
 
 const deleteProduct = async id => {
-  const endpoint = new URL(`${DOMAIN}${PATHS.updateProduct}`)
+  const endpoint = new URL(`${DOMAIN}${PATHS.deleteProduct}`)
 
   endpoint.searchParams.append('Id', id)
 
