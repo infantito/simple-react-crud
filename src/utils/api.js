@@ -1,4 +1,4 @@
-const { DOMAIN, PATHS } = require('./constants')
+import { DOMAIN, PATHS } from './constants'
 
 const authenticate = async values => {
   const endpoint = `${DOMAIN}${PATHS.token}`
