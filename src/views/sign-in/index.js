@@ -1,54 +1,31 @@
 import React from 'react'
-import { Form, Input, Button } from 'antd'
-import { storage, generateToken, STORAGE_KEYS } from 'utils'
+import { storage, STORAGE_KEYS } from 'utils'
 import './styles.scss'
 
+import { Form } from 'antd'
+import Auth from 'containers/auth'
+import { authenticate } from 'utils/api'
+
 const SignIn = () => {
-  const handleSubmit = values => {
+  const [form] = Form.useForm()
+
+  const handleSubmit = async values => {
+    const session = await authenticate(values)
+
     // TODO: use Fetch Api
-    const response = { user: values, token: generateToken() }
+    const response = {
+      user: JSON.stringify(session),
+      token: session.access_token,
+    }
 
     storage.set(STORAGE_KEYS.TOKEN, response.token)
 
     storage.set(STORAGE_KEYS.USER, JSON.stringify(response.user))
+
+    form.resetFields()
   }
 
-  return (
-    <Form
-      layout="vertical"
-      name="basic"
-      initialValues={{}}
-      onFinish={handleSubmit}
-      className="form"
-    >
-      <Form.Item
-        label="Nombre de usuario:"
-        name="username"
-        rules={[
-          {
-            required: true,
-            message: 'Por favor ingrese su nombre de usuario.',
-          },
-        ]}
-      >
-        <Input />
-      </Form.Item>
-      <Form.Item
-        label="Contraseña"
-        name="password"
-        rules={[
-          { required: true, message: 'Por favor ingrese su contraseña.' },
-        ]}
-      >
-        <Input.Password />
-      </Form.Item>
-      <Form.Item>
-        <Button type="primary" htmlType="submit">
-          Ingresar
-        </Button>
-      </Form.Item>
-    </Form>
-  )
+  return <Auth form={form} handleSubmit={handleSubmit} />
 }
 
 export default SignIn
