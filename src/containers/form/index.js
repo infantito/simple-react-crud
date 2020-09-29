@@ -14,7 +14,7 @@ const Form = props => {
       initialValues={{}}
       onFinish={handleSubmit}
     >
-      <Title>My User</Title>
+      <Title>Iniciar sesión</Title>
       <fieldset>
         <AntdForm.Item label="Nombre de usuario:" name="username">
           <Input placeholder="Nombre de usuario" />

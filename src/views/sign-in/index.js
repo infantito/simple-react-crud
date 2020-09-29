@@ -1,13 +1,13 @@
 import React from 'react'
 import { Form as AntdForm } from 'antd'
 import Form from 'containers/form'
-import { createUser } from 'utils/api'
+import { authenticate } from 'utils/api'
 
-const UpsertUser = () => {
+const SignIn = () => {
   const [form] = AntdForm.useForm()
 
   const handleSubmit = async values => {
-    const session = await createUser(values)
+    const session = await authenticate(values)
 
     console.log(session)
 
@@ -17,4 +17,4 @@ const UpsertUser = () => {
   return <Form form={form} handleSubmit={handleSubmit} />
 }
 
-export default UpsertUser
+export default SignIn

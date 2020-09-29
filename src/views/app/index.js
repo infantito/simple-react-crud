@@ -1,8 +1,8 @@
 import React from 'react'
-import UpsertUser from 'views/upsert-user'
+import SignIn from 'views/sign-in'
 
 const App = () => {
-  return <UpsertUser />
+  return <SignIn />
 }
 
 export default App
