@@ -1,62 +1,88 @@
-import React, { useState } from 'react'
-import { Menu, Table } from 'containers'
-import { UpsertUser } from 'views'
-import { getColumns, MENU, roles, users as dataSource } from 'utils'
+import React, { useEffect, useState } from 'react'
+import UpsertProduct from 'views/upsert-product'
+import { Table, Menu } from 'containers'
+import {
+  getColumns,
+  categories,
+  products as dataSource,
+  MENU,
+} from 'utils/constants'
+import {
+  createProduct,
+  deleteProduct,
+  getProducts,
+  updateProduct,
+} from 'utils/api'
 import './styles.scss'
 
-const formatUsers = users => {
-  return users.map(user => {
-    const role = roles.find(role => role.value === user.role)
+const formatProducts = products => {
+  return products.map(product => {
+    const category = categories.find(
+      category => category.value === product.CategoriaId,
+    ) || { text: 'Otro' }
 
     return {
-      ...user,
-      role: role.text,
+      ...product,
+      Categoria: category.text,
     }
   })
 }
 
 const Dashboard = () => {
-  const [user, setUser] = useState(null)
+  const [product, setProduct] = useState(null)
 
-  const [users, setUsers] = useState(dataSource)
+  const [products, setProducts] = useState(dataSource)
 
-  const handleUpsertUser = (user, key) => {
+  const handleUpsertProduct = async (item, id) => {
     // UPDATE
-    if (key) {
-      setUser(null)
+    if (id) {
+      setProduct(null)
 
-      setUsers(prevState => {
-        return prevState.map(item => {
-          if (item.key === key) {
-            return { ...user, key }
-          }
+      const success = await updateProduct({ ...product, ...item })
 
-          return item
+      if (success) {
+        setProducts(prevState => {
+          return prevState.map(record => {
+            if (record.Id === id) {
+              return { ...record, ...item, key: id }
+            }
+
+            return record
+          })
         })
-      })
+      }
 
       return null
     }
 
     // CREATE
-    // NOTE: Don't do array.push(value)
-    setUsers(prevState => {
-      // Base36 = hexatridecimal
-      const key = Date.now().toString(36)
+    const productId = await createProduct(item)
 
-      return [...prevState, { ...user, key }]
-    })
+    if (productId) {
+      // NOTE: Don't do array.push(value)
+      setProducts(prevState => {
+        return [...prevState, { Id: productId, ...item, key: productId }]
+      })
+    }
   }
 
   const handleEdit = record => () => {
-    setUser(record)
+    setProduct(record)
   }
 
-  const handleDelete = record => () => {
-    setUsers(prevState => {
-      return prevState.filter(item => item.key !== record.key)
-    })
+  const handleDelete = record => async () => {
+    const success = await deleteProduct(record.Id)
+
+    if (success) {
+      setProducts(prevState => {
+        return prevState.filter(item => item.Id !== record.Id)
+      })
+    }
   }
+
+  useEffect(() => {
+    getProducts()
+  }, [])
 
   return (
     <article className="container">
@@ -64,10 +90,13 @@ const Dashboard = () => {
         <Menu options={MENU} />
       </section>
       <section className="container-content">
-        <UpsertUser handleUpsertUser={handleUpsertUser} user={user} />
+        <UpsertProduct
+          handleUpsertProduct={handleUpsertProduct}
+          product={product}
+        />
         <Table
           columns={getColumns({ handleEdit, handleDelete })}
-          dataSource={formatUsers(users)}
+          dataSource={formatProducts(products)}
         />
       </section>
     </article>
