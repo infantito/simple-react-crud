@@ -1,26 +1,27 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Row } from 'antd'
-import UpsertUser from 'views/upsert-user'
+import UpsertProduct from 'views/upsert-product'
 import { Table } from 'containers'
-import { getColumns, users as dataSource } from 'utils/constants'
+import { getColumns, products as dataSource } from 'utils/constants'
+import { getProducts } from 'utils/api'
 
 const App = () => {
-  const [user, setUser] = useState(null)
+  const [product, setProduct] = useState(null)
 
-  const [users, setUsers] = useState(dataSource)
+  const [products, setProducts] = useState(dataSource)
 
-  const handleUpsertUser = (user, key) => {
+  const handleUpsertProduct = (item, id) => {
     // UPDATE
-    if (key) {
-      setUser(null)
+    if (id) {
+      setProduct(null)
 
-      setUsers(prevState => {
-        return prevState.map(item => {
-          if (item.key === key) {
-            return { ...user, key }
+      setProducts(prevState => {
+        return prevState.map(record => {
+          if (record.Id === id) {
+            return { ...record, ...item, key: id }
           }
 
-          return item
+          return record
         })
       })
 
@@ -29,30 +30,37 @@ const App = () => {
 
     // CREATE
     // NOTE: Don't do array.push(value)
-    setUsers(prevState => {
+    setProducts(prevState => {
       // Base36 = hexatridecimal
       const key = Date.now().toString(36)
 
-      return [...prevState, { ...user, key }]
+      return [...prevState, { Id: key, ...item, key }]
     })
   }
 
   const handleEdit = record => () => {
-    setUser(record)
+    setProduct(record)
   }
 
   const handleDelete = record => () => {
-    setUsers(prevState => {
-      return prevState.filter(item => item.key !== record.key)
+    setProducts(prevState => {
+      return prevState.filter(item => item.Id !== record.Id)
     })
   }
 
+  useEffect(() => {
+    getProducts()
+  }, [])
+
   return (
     <Row>
-      <UpsertUser handleUpsertUser={handleUpsertUser} user={user} />
+      <UpsertProduct
+        handleUpsertProduct={handleUpsertProduct}
+        product={product}
+      />
       <Table
         columns={getColumns({ handleEdit, handleDelete })}
-        dataSource={users}
+        dataSource={products}
       />
     </Row>
   )
