@@ -19,7 +19,7 @@ const Menu = ({ options, history }) => {
 
   const menu = Object.values(options)
 
-  const match = useRouteMatch(`${MENU.USER.path}/:id`) || {}
+  const match = useRouteMatch(`${MENU.PRODUCT.path}/:id`) || {}
 
   const handleCollapse = () => {
     setIsCollapsed(prevState => !prevState)
