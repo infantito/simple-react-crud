@@ -18,7 +18,11 @@ const App = () => {
       setProducts(prevState => {
         return prevState.map(record => {
           if (record.Id === id) {
-            return { ...record, ...item, key: id }
+            return {
+              ...record,
+              ...item,
+              key: id,
+            }
           }
 
           return record
@@ -50,6 +54,8 @@ const App = () => {
 
   useEffect(() => {
     getProducts()
+
+    // TODO: format products (status)
   }, [])
 
   return (

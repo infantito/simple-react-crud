@@ -1,5 +1,5 @@
 import React from 'react'
-import { Row, Col, Button } from 'antd'
+import { Row, Col, Button, Tag } from 'antd'
 
 export const DOMAIN = process.env.REACT_APP_DOMAIN
 
@@ -34,9 +34,16 @@ export const getColumns = params => [
     key: 3,
   },
   {
-    title: 'Activo',
+    title: 'Estado',
     dataIndex: 'Estado',
     key: 4,
+    render: status => {
+      return (
+        <Tag color={status ? 'green' : 'volcano'}>
+          {status ? 'Activo' : 'Inactivo'}
+        </Tag>
+      )
+    },
   },
   {
     title: 'Acciones',
@@ -90,7 +97,7 @@ export const products = [
     Precio: 72.0,
     CategoriaId: 1,
     FechaRegistro: '2020-09-28T01:02:25.67',
-    Estado: true,
+    Estado: false,
   },
   {
     key: 4,
