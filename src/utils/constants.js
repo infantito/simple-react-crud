@@ -12,7 +12,7 @@ export const PATHS = {
   products: '/api/Values/GetProducts',
   createProduct: '/api/Values/CreateProduct',
   updateProduct: '/api/Values/EditProduct',
-  deleteProduct: '/api/Values/DeleteProduct?id=',
+  deleteProduct: '/api/Values/DeleteProduct',
 }
 
 export const getColumns = params => [
