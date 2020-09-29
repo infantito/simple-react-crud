@@ -3,7 +3,12 @@ import { Row } from 'antd'
 import UpsertProduct from 'views/upsert-product'
 import { Table } from 'containers'
 import { getColumns, categories, products as dataSource } from 'utils/constants'
-import { getProducts } from 'utils/api'
+import {
+  createProduct,
+  deleteProduct,
+  getProducts,
+  updateProduct,
+} from 'utils/api'
 
 const formatProducts = products => {
   return products.map(product => {
@@ -23,42 +28,51 @@ const App = () => {
 
   const [products, setProducts] = useState(dataSource)
 
-  const handleUpsertProduct = (item, id) => {
+  const handleUpsertProduct = async (item, id) => {
     // UPDATE
     if (id) {
       setProduct(null)
 
-      setProducts(prevState => {
-        return prevState.map(record => {
-          if (record.Id === id) {
-            return { ...record, ...item, key: id }
-          }
+      const success = await updateProduct({ ...product, ...item })
 
-          return record
+      if (success) {
+        setProducts(prevState => {
+          return prevState.map(record => {
+            if (record.Id === id) {
+              return { ...record, ...item, key: id }
+            }
+
+            return record
+          })
         })
-      })
+      }
 
       return null
     }
 
     // CREATE
-    // NOTE: Don't do array.push(value)
-    setProducts(prevState => {
-      // Base36 = hexatridecimal
-      const key = Date.now().toString(36)
+    const productId = await createProduct(item)
 
-      return [...prevState, { Id: key, ...item, key }]
-    })
+    if (productId) {
+      // NOTE: Don't do array.push(value)
+      setProducts(prevState => {
+        return [...prevState, { Id: productId, ...item, key: productId }]
+      })
+    }
   }
 
   const handleEdit = record => () => {
     setProduct(record)
   }
 
-  const handleDelete = record => () => {
-    setProducts(prevState => {
-      return prevState.filter(item => item.Id !== record.Id)
-    })
+  const handleDelete = record => async () => {
+    const success = await deleteProduct(record.Id)
+
+    if (success) {
+      setProducts(prevState => {
+        return prevState.filter(item => item.Id !== record.Id)
+      })
+    }
   }
 
   useEffect(() => {
