@@ -2,12 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Switch, useHistory } from 'react-router-dom'
 import { Menu, Table, PrivateRoute } from 'containers'
 import { UpsertProduct } from 'views'
-import {
-  getColumns,
-  categories,
-  products as dataSource,
-  MENU,
-} from 'utils/constants'
+import { getColumns, categories, MENU } from 'utils/constants'
 import {
   createProduct,
   deleteProduct,
@@ -32,7 +27,7 @@ const formatProducts = products => {
 const Dashboard = () => {
   const [product, setProduct] = useState(null)
 
-  const [products, setProducts] = useState(dataSource)
+  const [products, setProducts] = useState([])
 
   const history = useHistory()
 
@@ -88,7 +83,11 @@ const Dashboard = () => {
   }
 
   useEffect(() => {
-    getProducts()
+    getProducts().then(data => {
+      if (Array.isArray(data)) {
+        setProducts(data)
+      }
+    })
   }, [])
 
   return (
