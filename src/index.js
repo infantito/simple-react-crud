@@ -1,11 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { App } from './components'
+import { App } from 'views'
+import 'antd/dist/antd.css'
 import './styles/theme.scss'
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root'),
-)
+ReactDOM.render(<App />, document.getElementById('root'))
