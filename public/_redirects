@@ -1,2 +1,2 @@
 /* /index.html 200\
-/api/* http://servicioprueba.pagekite.me/api/:splat 200!
+/* http://servicioprueba.pagekite.me/:splat 200
