@@ -1,12 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import UpsertProduct from 'views/upsert-product'
 import { Table, Menu } from 'containers'
-import {
-  getColumns,
-  categories,
-  products as dataSource,
-  MENU,
-} from 'utils/constants'
+import { getColumns, categories, MENU } from 'utils/constants'
 import {
   createProduct,
   deleteProduct,
@@ -31,7 +26,7 @@ const formatProducts = products => {
 const Dashboard = () => {
   const [product, setProduct] = useState(null)
 
-  const [products, setProducts] = useState(dataSource)
+  const [products, setProducts] = useState([])
 
   const handleUpsertProduct = async (item, id) => {
     // UPDATE
@@ -81,7 +76,11 @@ const Dashboard = () => {
   }
 
   useEffect(() => {
-    getProducts()
+    getProducts().then(data => {
+      if (Array.isArray(data)) {
+        setProducts(data)
+      }
+    })
   }, [])
 
   return (
