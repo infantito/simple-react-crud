@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react'
-import { Form as AntdForm, Input, Select, Button } from 'antd'
+import { Form, Input, Button } from 'antd'
 import { Title } from 'components'
-import { roles, userKeys } from 'utils/constants'
+import { userKeys } from 'utils/constants'
 import './styles.scss'
 
-const Form = props => {
+const Auth = props => {
   const { form, initialValues, handleSubmit } = props
 
   useEffect(() => {
@@ -13,31 +13,22 @@ const Form = props => {
   }, [initialValues])
 
   return (
-    <AntdForm
+    <Form
       form={form}
-      className="form"
+      className="auth"
       layout="vertical"
       initialValues={initialValues || {}}
       onFinish={handleSubmit}
     >
-      <Title>My User</Title>
+      <Title>Iniciar sesión</Title>
       <fieldset>
-        <AntdForm.Item label="Nombre de usuario:" name="username">
+        <Form.Item label="Nombre de usuario:" name="username">
           <Input placeholder="Nombre de usuario" />
-        </AntdForm.Item>
-        <AntdForm.Item label="Contraseña:" name="password">
+        </Form.Item>
+        <Form.Item label="Contraseña:" name="password">
           <Input.Password placeholder="Contraseña" />
-        </AntdForm.Item>
-        <AntdForm.Item label="Role:" name="role">
-          <Select placeholder="Selecciona un role" allowClear={true}>
-            {roles.map(role => (
-              <Select.Option key={role.value} value={role.value}>
-                {role.text}
-              </Select.Option>
-            ))}
-          </Select>
-        </AntdForm.Item>
-        <AntdForm.Item shouldUpdate={true}>
+        </Form.Item>
+        <Form.Item shouldUpdate={true}>
           {internalProps => {
             const values = internalProps.getFieldsValue(userKeys)
 
@@ -46,14 +37,14 @@ const Form = props => {
 
             return (
               <Button type="primary" htmlType="submit" disabled={isDisabled}>
-                Guardar
+                Ingresar
               </Button>
             )
           }}
-        </AntdForm.Item>
+        </Form.Item>
       </fieldset>
-    </AntdForm>
+    </Form>
   )
 }
 
-export default Form
+export default Auth
