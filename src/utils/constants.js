@@ -10,6 +10,9 @@ export const BEARER = 'bearer'
 export const PATHS = {
   authenticate: '/token',
   products: '/api/Values/GetProducts',
+  createProduct: '/api/Values/CreateProduct',
+  updateProduct: '/api/Values/EditProduct',
+  deleteProduct: '/api/Values/DeleteProduct?id=',
 }
 
 export const getColumns = params => [
