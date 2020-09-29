@@ -1,0 +1,9 @@
+{
+  "routes": [
+    {
+      "src": "http://servicioprueba.pagekite.me/token",
+      "methods": ["POST"],
+      "dest": "http://servicioprueba.pagekite.me/token"
+    }
+  ]
+}
