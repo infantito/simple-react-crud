@@ -1,48 +1,17 @@
 import React from 'react'
-import { Form as AntdForm, notification } from 'antd'
+import { Form as AntdForm } from 'antd'
 import Form from 'containers/form'
-import { DOMAIN, PATHS } from 'utils/constants'
+import { createUser } from 'utils/api'
 
 const UpsertUser = () => {
   const [form] = AntdForm.useForm()
 
   const handleSubmit = async values => {
-    const endpoint = `${DOMAIN}${PATHS.token}`
+    const session = await createUser(values)
 
-    const searchParams = new URLSearchParams()
+    console.log(session)
 
-    searchParams.append('username', values.username)
-
-    searchParams.append('password', values.password)
-
-    searchParams.append('grant_type', 'password')
-
-    try {
-      const response = await fetch(endpoint, {
-        method: 'POST',
-        body: searchParams,
-      })
-
-      const json = await response.json()
-
-      console.info(json)
-
-      notification.success({
-        message: '¡Operación exitosa!',
-        description: 'La transacción se realizó correctamente.',
-        duration: 2.5,
-      })
-    } catch (error) {
-      console.error(error)
-
-      notification.error({
-        message: '¡Operación fallida!',
-        description: 'La transacción no se concretó.',
-        duration: 2.5,
-      })
-    } finally {
-      form.resetFields()
-    }
+    form.resetFields()
   }
 
   return <Form form={form} handleSubmit={handleSubmit} />
