@@ -1,69 +1,95 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Switch, useHistory } from 'react-router-dom'
 import { Menu, Table, PrivateRoute } from 'containers'
-import { UpsertUser } from 'views'
-import { getColumns, MENU, roles, users as dataSource } from 'utils'
+import { UpsertProduct } from 'views'
+import {
+  getColumns,
+  categories,
+  products as dataSource,
+  MENU,
+} from 'utils/constants'
+import {
+  createProduct,
+  deleteProduct,
+  getProducts,
+  updateProduct,
+} from 'utils/api'
 import './styles.scss'
 
-const formatUsers = users => {
-  return users.map(user => {
-    const role = roles.find(
-      role => role.value === user.role || role.text === user.role,
-    )
+const formatProducts = products => {
+  return products.map(product => {
+    const category = categories.find(
+      category => category.value === product.CategoriaId,
+    ) || { text: 'Otro' }
 
     return {
-      ...user,
-      role: role.text,
+      ...product,
+      Categoria: category.text,
     }
   })
 }
 
 const Dashboard = () => {
-  const [user, setUser] = useState(null)
+  const [product, setProduct] = useState(null)
 
-  const [users, setUsers] = useState(dataSource)
+  const [products, setProducts] = useState(dataSource)
 
   const history = useHistory()
 
-  const handleUpsertUser = (user, key) => {
+  const handleUpsertProduct = async (item, id) => {
     // UPDATE
-    if (key) {
-      setUser(null)
+    if (id) {
+      setProduct(null)
 
-      setUsers(prevState => {
-        return prevState.map(item => {
-          if (item.key === key) {
-            return { ...user, key }
-          }
+      const success = await updateProduct({ ...product, ...item })
 
-          return item
+      if (success) {
+        setProducts(prevState => {
+          return prevState.map(record => {
+            if (record.Id === id) {
+              return { ...record, ...item, key: id }
+            }
+
+            return record
+          })
         })
-      })
+      }
     } else {
       // CREATE
-      // NOTE: Don't do array.push(value)
-      setUsers(prevState => {
-        // Base36 = hexatridecimal
-        const key = Date.now().toString(36)
+      const productId = await createProduct(item)
 
-        return [...prevState, { ...user, key }]
-      })
+      // NOTE: Don't do array.push(value)
+
+      if (productId) {
+        // NOTE: Don't do array.push(value)
+        setProducts(prevState => {
+          return [...prevState, { Id: productId, ...item, key: productId }]
+        })
+      }
     }
 
     history.push(MENU.DASHBOARD.path)
   }
 
   const handleEdit = record => () => {
-    setUser(record)
+    setProduct(record)
 
-    return history.push(`${MENU.USER.path}/${record.key}`)
+    return history.push(`${MENU.PRODUCT.path}/${record.key}`)
   }
 
-  const handleDelete = record => () => {
-    setUsers(prevState => {
-      return prevState.filter(item => item.key !== record.key)
-    })
+  const handleDelete = record => async () => {
+    const success = await deleteProduct(record.Id)
+
+    if (success) {
+      setProducts(prevState => {
+        return prevState.filter(item => item.Id !== record.Id)
+      })
+    }
   }
+
+  useEffect(() => {
+    getProducts()
+  }, [])
 
   return (
     <article className="container">
@@ -75,14 +101,17 @@ const Dashboard = () => {
           <PrivateRoute exact={true} path={MENU.DASHBOARD.path}>
             <Table
               columns={getColumns({ handleEdit, handleDelete })}
-              dataSource={formatUsers(users)}
+              dataSource={formatProducts(products)}
             />
           </PrivateRoute>
-          <PrivateRoute exact={true} path={MENU.USER.path}>
-            <UpsertUser handleUpsertUser={handleUpsertUser} />
+          <PrivateRoute exact={true} path={MENU.PRODUCT.path}>
+            <UpsertProduct handleUpsertProduct={handleUpsertProduct} />
           </PrivateRoute>
-          <PrivateRoute path={`${MENU.USER.path}/:id`}>
-            <UpsertUser handleUpsertUser={handleUpsertUser} user={user} />
+          <PrivateRoute path={`${MENU.PRODUCT.path}/:id`}>
+            <UpsertProduct
+              handleUpsertProduct={handleUpsertProduct}
+              product={product}
+            />
           </PrivateRoute>
         </Switch>
       </section>

@@ -1,59 +1,44 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
-import { Form, Input, Button } from 'antd'
-import { storage, generateToken, STORAGE_KEYS, MENU } from 'utils'
+import { Form, notification } from 'antd'
+import Auth from 'containers/auth'
+import { storage, STORAGE_KEYS, MENU } from 'utils'
+import { authenticate } from 'utils/api'
 import './styles.scss'
 
 const SignIn = () => {
   const history = useHistory()
 
-  const handleSubmit = values => {
-    // TODO: use Fetch Api
-    const response = { user: values, token: generateToken() }
+  const [form] = Form.useForm()
 
-    storage.set(STORAGE_KEYS.TOKEN, response.token)
+  const handleSubmit = async values => {
+    const session = await authenticate(values)
 
-    storage.set(STORAGE_KEYS.USER, JSON.stringify(response.user))
+    if (session) {
+      const response = {
+        user: JSON.stringify(session),
+        token: session.access_token,
+      }
 
-    history.replace(MENU.DASHBOARD)
+      storage.set(STORAGE_KEYS.TOKEN, response.token)
+
+      storage.set(STORAGE_KEYS.USER, JSON.stringify(response.user))
+
+      history.replace(MENU.DASHBOARD)
+
+      return null
+    }
+
+    notification.error({
+      message: 'Usuario y/o contraseña incorrecta',
+      description: 'Intentelo nuevamente.',
+      duration: 2.5,
+    })
+
+    form.resetFields()
   }
 
-  return (
-    <Form
-      layout="vertical"
-      name="basic"
-      initialValues={{}}
-      onFinish={handleSubmit}
-      className="login"
-    >
-      <Form.Item
-        label="Nombre de usuario:"
-        name="username"
-        rules={[
-          {
-            required: true,
-            message: 'Por favor ingrese su nombre de usuario.',
-          },
-        ]}
-      >
-        <Input />
-      </Form.Item>
-      <Form.Item
-        label="Contraseña"
-        name="password"
-        rules={[
-          { required: true, message: 'Por favor ingrese su contraseña.' },
-        ]}
-      >
-        <Input.Password />
-      </Form.Item>
-      <Form.Item>
-        <Button type="primary" htmlType="submit">
-          Ingresar
-        </Button>
-      </Form.Item>
-    </Form>
-  )
+  return <Auth form={form} handleSubmit={handleSubmit} />
 }
 
 export default SignIn
