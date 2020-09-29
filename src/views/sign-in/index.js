@@ -2,7 +2,7 @@ import React from 'react'
 import Form from 'containers/form'
 import { authenticate } from 'utils/api'
 
-const UpsertUser = () => {
+const SignIn = () => {
   const handleSubmit = (values, handleReset) => async e => {
     e.preventDefault()
 
@@ -16,4 +16,4 @@ const UpsertUser = () => {
   return <Form handleSubmit={handleSubmit} />
 }
 
-export default UpsertUser
+export default SignIn
